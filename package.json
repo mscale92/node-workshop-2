@@ -1,0 +1,19 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "### Base instructions   * **If you did not finish** the exercises from the first NodeJS workshop, please complete these first.   * Fork this repository and clone it in a new Cloud9 workspace.   * All the work will be done in the `master` branch.",
+  "main": "request-as-json.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mscale92/node-workshop-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mscale92/node-workshop-2/issues"
+  },
+  "homepage": "https://github.com/mscale92/node-workshop-2#readme"
+}
