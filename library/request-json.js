@@ -3,37 +3,8 @@
 //first install the module!
 var request = require("request");
 //accessing our request mod, npm, library for the request function
-var prompt = require("prompt");
 
-
-
-
-function pokemonNum(callback){
-    var url = "http://pokeapi.co/api/v2/pokemon/";
-    //var url has our url
-    
-    prompt.get("Enter a number between 1-151", function(err, userInput){
-        if(err){
-            console.log("damnit!")
-            callback(err);
-        }
-        else{
-            try{
-                var num = userInput["Enter a number between 1-151"];
-                var completeUrl = url.concat(num);
-                //made our completeUrl as a concat of our url and number
-                    //the number will access a pokemon
-                callback(null, completeUrl);
-                //send our new url to our callback so that our request
-                    //function can use it
-            }
-            catch(error){
-                console.log("well shit, prompt problems");
-                callback(error);
-            }
-        }
-    })
-}
+var url = "http://pokeapi.co/api/v2/pokemon/134";
 
 function requestJson(url, callback){
     request(url, function(err, pokemon){
@@ -67,21 +38,15 @@ function requestJson(url, callback){
 
 
 try{
-    pokemonNum(function(err,url){
+
+   requestJson(url, function(err, value){
         if(err){
-            console.log("shit");
+            console.log("Uh oh");
         }
         else{
-            requestJson(url, function(err, value){
-                if(err){
-                    console.log("Uh oh");
-                }
-                else{
-                    console.log("A wild " + value + " appeared!");
-                }
-            });
+            console.log("A wild " + value + " appeared!");
         }
-});
+    });
 //calling request Json
     //inserted parameter values are url variable and a callback function
 }
@@ -90,4 +55,10 @@ catch(error){
     console.log("crap attack");
 }
 
-exports.pokemonNum = pokemonNum();
+
+
+var myObj = {
+    requestJS:  requestJson
+};
+
+module.exports = myObj;
