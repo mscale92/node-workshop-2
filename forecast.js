@@ -6,6 +6,8 @@
 var req = require("./library/request-json.js");
 //the variable used to request our api data.
 
+var prompt = require("prompt");
+
 var emoji = require('node-emoji');
 
 function weatherForecast(weatherCoor, callback){
@@ -145,37 +147,67 @@ function dayOfTheWeek(forecast){
     // console.log("blue");
     console.log(prettyForecast);
 }
+//end of dayoftheweek forecast
+    //replaces date data with days of the week and organizes data into
+    //an appropriate output
+    
+    
 
-
+function userCity(callback){
+    prompt.get("Enter your current city", function(err, userInput){
+        if(err){
+            
+        }
+        else{
+            var city = userInput["Enter your current city"];
+            callback(null, city);
+        }
+    });
+}
+//end of userCity function
 
 
 //Calling all functions!
-userLonLat("chicago", function(err, userCoordinates){
+userCity(function(err, city){
     if(err){
         
     }
     else{
-        var weatherCoor = userCoordinates.join();
-        //no separator, the weather url requires a comma.
-        // console.log("orange");
-        
-        weatherForecast(weatherCoor, function(err, forecast){
-            if(err){
-                
-            }
-            else{
-                
-                //forecast is an array 
-                    //each day is each position in the array
-                    //each position has an object with four points of data
-                    //summary, icon, tempHigh, tempLow, and date
+    userLonLat(city, function(err, userCoordinates){
+        //city is user input string
+        if(err){
+            
+        }
+        else{
+            var weatherCoor = userCoordinates.join();
+            //no separator, the weather url requires a comma.
+            // console.log("orange");
+            
+            weatherForecast(weatherCoor, function(err, forecast){
+                //weatherCoor is userCoordinates, lat lon, as a string
+                if(err){
                     
-                // console.log("green");
-                
-                dayOfTheWeek(forecast);
-            }
-        });
-        //end of weatherForecast call
+                }
+                else{
+                    
+                    //forecast is an array 
+                        //each day is each position in the array
+                        //each position has an object with four points of data
+                        //summary, icon, tempHigh, tempLow, and date
+                        
+                    // console.log("green");
+                    
+                    dayOfTheWeek(forecast);
+                    //forecast is the object of data of the weather forecast
+                    //from the user location
+                }
+            });
+            //end of weatherForecast call
+        }
+    })
+    //end of userLonLat call
     }
 });
-//end of userLonLat call
+//end of userCity call
+
+//End of call chain
