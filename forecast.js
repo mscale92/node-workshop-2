@@ -6,7 +6,7 @@
 var req = require("./library/request-json.js");
 //the variable used to request our api data.
 
-
+var emoji = require('node-emoji');
 
 function weatherForecast(weatherCoor, callback){
     var weatherUrl = "https://api.darksky.net/forecast/f90227ab9f53a3d6c4ca0b9d7cea89d4/";
@@ -115,14 +115,33 @@ function dayOfTheWeek(forecast){
     var wordyForecast = forecast.reduce(function(array, day, idx){
        day["date"] = days[idx];
        array.push(day);
-       return array;
+           if(day.icon.indexOf("cloudy") >= 0){
+               day["icon"] = emoji.get('cloud');
+               return array
+           }
+           else if(day.icon.indexOf("sun") >= 0){
+               day["icon"] = emoji.get('sunny');
+               return array
+           }
+           else if(day.icon.indexOf("rain") >= 0){
+               day["icon"] = emoji.get('umbrella');
+               return array
+           }
+           else if(day.icon.indexOf("clear") >= 0){
+               day["icon"] = emoji.get("large_blue_circle");
+               return array
+           }
+           
+            else{
+                return array;
+            }
     }, []).map(function(day){
-        return [day.date, day.icon, day.summary, day.tempHigh, day.tempLow].join("\n");
+        return [day.date, day.icon, day.summary, "High of " + day.tempHigh + " degrees Fahrenheit", "Low of  " + day.tempLow + " degrees Fahrenheit"].join("\n");
     });
     //end of reduce function 
         //this function replaces the date data, which is in unix, 
         //with the names of the week
-    var prettyForecast = wordyForecast.join('\r');
+    var prettyForecast = wordyForecast.join('\n');
     // console.log("blue");
     console.log(prettyForecast);
 }
@@ -131,7 +150,7 @@ function dayOfTheWeek(forecast){
 
 
 //Calling all functions!
-userLonLat("los angeles", function(err, userCoordinates){
+userLonLat("chicago", function(err, userCoordinates){
     if(err){
         
     }
